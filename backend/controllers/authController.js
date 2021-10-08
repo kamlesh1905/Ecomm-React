@@ -47,7 +47,7 @@ exports.loginUser = catchAsyncErrors(async(req, res, next) => {
     const user = await User.findOne({ email }).select('+password')
 
     if (!user) {
-        return next(new ErrorHandler('Please enter email and password', 401))
+        return next(new ErrorHandler('Please enter correct email and password', 401))
     }
 
     //checks if password is correct or not
@@ -93,7 +93,7 @@ exports.forgotPassword = catchAsyncErrors(async(req, res, next) => {
 
         await sendEmail({
             email: user.email,
-            subject: 'ShopNow Password Recovery',
+            subject: 'ShopIT Password Recovery',
             message
         })
 
@@ -112,6 +112,7 @@ exports.forgotPassword = catchAsyncErrors(async(req, res, next) => {
     }
 
 })
+
 
 
 //Lagout User => /api/v1/logout
