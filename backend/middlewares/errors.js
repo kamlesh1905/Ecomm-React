@@ -32,6 +32,14 @@ module.exports = (err, req, res, next) => {
             error = new ErrorHandler(message, 400)
         }
 
+        // Handling Moongoose duplicate key errors
+
+        if (err.code === 11000) {
+            const message = `Duplicate ${Object.keys(err.keyValue)} entered`
+            error = new ErrorHandler(message, 400)
+        }
+
+        // Handling wrong JWT error
 
         res.status(error.statusCode).json({
             success: false,
