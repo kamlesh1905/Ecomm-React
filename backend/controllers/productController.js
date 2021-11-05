@@ -24,14 +24,21 @@ exports.newProduct = catchAsyncErrors(async(req, res, next) => {
 
 exports.getProducts = catchAsyncErrors(async(req, res, next) => {
 
-    const resPerPage = 9;
+    const resPerPage = 4;
 
     const productsCount = await Product.countDocuments();
 
     const apiFeatures = new APIFeatures(Product.find(), req.query)
         .search()
         .filter()
-        .pagination(resPerPage)
+
+        let products = await apiFeatures.query;
+        let filteredProductsCount = products.length;
+    
+        apiFeatures.pagination(resPerPage)
+        products = await apiFeatures.query;
+
+
 
     const products = await apiFeatures.query;
 
@@ -40,7 +47,9 @@ exports.getProducts = catchAsyncErrors(async(req, res, next) => {
             success: true,
             count: products.length,
             productsCount,
-            products
+            resPerPage,
+            filteredProductsCount,
+            products       
         });
     },2000);
 
