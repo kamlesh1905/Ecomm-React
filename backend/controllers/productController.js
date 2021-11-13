@@ -38,10 +38,6 @@ exports.getProducts = catchAsyncErrors(async(req, res, next) => {
         apiFeatures.pagination(resPerPage)
         products = await apiFeatures.query;
 
-
-
-    const products = await apiFeatures.query;
-
     setTimeout(()=>{
         res.status(200).json({
             success: true,
